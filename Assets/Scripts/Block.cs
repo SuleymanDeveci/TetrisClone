@@ -29,4 +29,36 @@ public class Block : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        Board.Clear(this);
+
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            HandleMovement(Vector2Int.left);
+        }
+        else if(Input.GetKeyDown(KeyCode.D))
+        { 
+            HandleMovement(Vector2Int.right);
+        }
+
+        Board.Set(this);
+    }
+
+    private bool HandleMovement(Vector2Int translation)
+    {
+        Vector3Int newPosition = Position;
+        newPosition.x += translation.x;
+        newPosition.y += translation.y;
+
+        bool isValid = Board.IsValidPosition(this, newPosition);
+
+        if (isValid)
+        {
+            Position = newPosition;
+        }
+
+        return isValid;
+    }
+
 }
