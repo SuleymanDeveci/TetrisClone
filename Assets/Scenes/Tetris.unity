@@ -444,7 +444,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -663,7 +663,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 579bf9d903d1acc4a9bdc474b74be1c7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -748,25 +748,20 @@ MonoBehaviour:
   tetrominos:
   - tetromino: 0
     tile: {fileID: 11400000, guid: 8d8f9a95f7b1d0a4389dc64f6c007c88, type: 2}
-    cells: []
   - tetromino: 1
     tile: {fileID: 11400000, guid: ee2b8744743eebf4ab7b66b8213df9c1, type: 2}
-    cells: []
   - tetromino: 2
     tile: {fileID: 11400000, guid: 33a8cc3ae8726b149a1b92f722aa2c66, type: 2}
-    cells: []
   - tetromino: 3
     tile: {fileID: 11400000, guid: 41bce6415a52530438841f114d670b48, type: 2}
-    cells: []
   - tetromino: 4
     tile: {fileID: 11400000, guid: f48a50f9a80d33b4ba7dc864bf5ab2e0, type: 2}
-    cells: []
   - tetromino: 5
     tile: {fileID: 11400000, guid: 5ce2fc3e27fb8f14cb7ed35495deca6c, type: 2}
-    cells: []
   - tetromino: 6
     tile: {fileID: 11400000, guid: b753fdc26b960584897e957efd49c8af, type: 2}
-    cells: []
+  spawnPosition: {x: -1, y: 8, z: 0}
+  boardSize: {x: 10, y: 20}
 --- !u!4 &1799377527
 Transform:
   m_ObjectHideFlags: 0
