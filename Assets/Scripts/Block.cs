@@ -1,12 +1,18 @@
+using System;
 using UnityEngine;
 
 public class Block : MonoBehaviour
 {
+    [SerializeField] private float stepDelay = 1f;
+    [SerializeField] private float lockDelay = 0.5f;
     public GameBoard Board {  get; private set; }
     public Vector3Int Position { get; private set; }
     public Vector3Int[] Cells { get; private set; }
     public TetrominoData TData { get; private set; }
     public int RotationIndex {  get; private set; }
+
+    private float stepTime;
+    private float lockTime;
 
     public void Initialize(GameBoard board, Vector3Int position, TetrominoData tData)
     {
@@ -14,6 +20,9 @@ public class Block : MonoBehaviour
         Position = position;
         TData = tData;
         RotationIndex = 0;
+
+        stepTime = Time.time + stepDelay;
+        lockTime = 0f;
 
        /*  --------------------Bir alt satýrdaki kodun uzun hali
         if(Cells == null)
@@ -33,13 +42,15 @@ public class Block : MonoBehaviour
     {
         Board.Clear(this);
 
+        lockTime += Time.deltaTime;
+
         if(Input.GetKeyDown(KeyCode.Q))
         {
             HandleRotation(-1);
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            HandleRotation(1);
+            HandleRotation(+1);
         }
 
         if (Input.GetKeyDown(KeyCode.A))
@@ -61,7 +72,31 @@ public class Block : MonoBehaviour
             HandleHardDrop();
         }
 
+        if(Time.time >= stepTime)
+        {
+            Step();
+        }
+
         Board.Set(this);
+    }
+
+    private void Step()
+    {
+        stepTime = Time.time + stepDelay;
+
+        HandleMovement(Vector2Int.down);
+
+        if(lockTime >= lockDelay)
+        {
+            Lock();
+        }
+    }
+
+    private void Lock()
+    {
+        Board.Set(this);
+        Board.ClearLines();
+        Board.SpawnPiece();
     }
 
     private bool HandleMovement(Vector2Int translation)
@@ -75,6 +110,7 @@ public class Block : MonoBehaviour
         if (isValid)
         {
             Position = newPosition;
+            lockTime = 0f;
         }
 
         return isValid;
@@ -85,13 +121,46 @@ public class Block : MonoBehaviour
         int originalRotation = RotationIndex;
         RotationIndex = ExtensionMethods.Wrap(RotationIndex + direction, 0, 4);
         ApplyRotationMatrix(direction);
+
+        if(!TestWallkicks(RotationIndex,direction))
+        {
+            RotationIndex = originalRotation;
+            ApplyRotationMatrix(-direction);
+        }
+    }
+
+    private bool TestWallkicks(int rotationIndex, int rotationDirection)
+    {
+        int wallkickIndex = GetWallKickIndex(rotationIndex, rotationDirection);
+
+        for(int i = 0; i < TData.WallKicks.GetLength(1); ++i)
+        {
+            Vector2Int translation = TData.WallKicks[wallkickIndex, i];
+
+            if (HandleMovement(translation))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int GetWallKickIndex(int rotationIndex, int rotationDirection)
+    {
+        int wallkickIndex = rotationIndex * 2;
+
+        if(rotationDirection < 0)
+        {
+            wallkickIndex--;
+        }
+        return ExtensionMethods.Wrap(wallkickIndex, 0, TData.WallKicks.GetLength(0));
     }
 
     private void ApplyRotationMatrix(int direction)
     {
         for(int i = 0; i< Cells.Length; ++i) 
         {
-            Vector3Int cell = Cells[i];
+            Vector3 cell = Cells[i];
 
             int x, y;
 
@@ -99,6 +168,8 @@ public class Block : MonoBehaviour
             {
                 case Tetromino.Letter_I:
                 case Tetromino.Letter_O:
+                    cell.x -= 0.5f;
+                    cell.y -= 0.5f;
                     x = Mathf.CeilToInt((cell.x * Data.RotationMatrix[0] * direction) + (cell.y * Data.RotationMatrix[1] * direction));
                     y = Mathf.CeilToInt((cell.x * Data.RotationMatrix[2] * direction) + (cell.y * Data.RotationMatrix[3] * direction));
                     break;
@@ -119,6 +190,8 @@ public class Block : MonoBehaviour
         {
             continue;
         }
+
+        Lock();
     }
 
 }

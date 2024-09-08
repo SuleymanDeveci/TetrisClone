@@ -45,7 +45,22 @@ public class GameBoard : MonoBehaviour
         TetrominoData data = tetrominos[random];
 
         ActiveBlock.Initialize(this, spawnPosition, data);
-        Set(ActiveBlock);
+
+        if(IsValidPosition(ActiveBlock, spawnPosition))
+        {
+            Set(ActiveBlock);
+        }
+        else
+        {
+            GameOver();
+        }
+    }
+
+    private void GameOver()
+    {
+        Tilemap.ClearAllTiles();
+
+        // UI ÝÞLEMLERÝ
     }
 
     public void Set(Block block)
@@ -84,5 +99,66 @@ public class GameBoard : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public void ClearLines() // Line doldumu kontol edip, dolduysa alttaki clearLine fonksiyonunu kullanarak temizleyen fonksiyon
+    {
+        RectInt bounds = Bounds;
+        int row = bounds.yMin;
+
+        while(row < bounds.yMax)
+        {
+            if (IslineFull(row))
+            {
+                ClearLine(row);
+            }
+            else
+            {
+                row++;
+            }
+            
+        }
+    }
+
+    private bool IslineFull(int row)
+    {
+        RectInt bound = Bounds;
+
+        for(int col = Bounds.xMin; col < bound.xMax; ++col)
+        {
+            Vector3Int position = new Vector3Int(col, row, 0);
+
+            if (!Tilemap.HasTile(position))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void ClearLine(int row) // Lineyi temizleyen fonksiyon
+    {
+        RectInt bound = Bounds;
+
+        for (int col = Bounds.xMin; col < bound.xMax; ++col)
+        {
+            Vector3Int position = new Vector3Int(col, row, 0);
+            Tilemap.SetTile(position, null);
+        }
+
+        while(row < Bounds.yMax)
+        {
+            for(int col = Bounds.xMin; col < Bounds.xMax; ++col)
+            {
+                Vector3Int position = new Vector3Int(col, row + 1, 0);
+                TileBase aboveTile = Tilemap.GetTile(position);
+
+                position = new Vector3Int(col, row, 0);
+                Tilemap.SetTile(position,aboveTile);
+            }
+
+            row++;
+        }
     }
 }

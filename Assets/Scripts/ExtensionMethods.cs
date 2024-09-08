@@ -8,7 +8,7 @@ public static class ExtensionMethods
         }
         else
         {
-            return max + (min - input) % (max - min);
+            return min + (input - min) % (max - min);
         }
     }
 }
