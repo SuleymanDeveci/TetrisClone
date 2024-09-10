@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class GameBoard : MonoBehaviour
 {
+    [SerializeField] private SoundManager soundManager;
     [SerializeField] private Score score;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI lineText;
@@ -70,9 +71,12 @@ public class GameBoard : MonoBehaviour
 
     private void GameOver()
     {
+        soundManager.PlaySound("gameOverSound");
         isGameOver = true;
-        Time.timeScale = 0;
         gameoOverPanel.SetActive(true);
+
+        Time.timeScale = 0;
+        
     }
 
     public void Set(Block block)
@@ -127,6 +131,8 @@ public class GameBoard : MonoBehaviour
                 score.score += 100;
                 scoreText.text = score.score.ToString();
                 lineText.text = score.lines.ToString();
+
+                soundManager.PlaySound("lineClearSound");
             }
             else
             {

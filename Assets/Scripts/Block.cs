@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
+    [SerializeField] private SoundManager soundManager;
     [SerializeField] private Score score;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private float stepDelay = 1f;
@@ -104,6 +105,9 @@ public class Block : MonoBehaviour
     {
         score.score += 10;
         scoreText.text = score.score.ToString();
+
+        soundManager.PlaySound("lockSound");
+
         Board.Set(this);
         Board.ClearLines();
         Board.SpawnPiece();
@@ -131,6 +135,7 @@ public class Block : MonoBehaviour
         int originalRotation = RotationIndex;
         RotationIndex = ExtensionMethods.Wrap(RotationIndex + direction, 0, 4);
         ApplyRotationMatrix(direction);
+        soundManager.PlaySound("rotateSound");
 
         if(!TestWallkicks(RotationIndex,direction))
         {
