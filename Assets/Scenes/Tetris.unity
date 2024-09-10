@@ -1081,7 +1081,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 5f7ffedfc1fb6864d9e586d43ecce200, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1273,7 +1273,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 152feffff66177f4f8765b9a42247786, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1369,7 +1369,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9c362700c8772304bb689361cfbf2000, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1465,7 +1465,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 2ad7d884d7422c04fbdb09f5a3c0a14e, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1673,11 +1673,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512ac76a670fd2948b1f9c312986686b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lockSound: {fileID: 0}
-  rotateSound: {fileID: 0}
-  lineClearSound: {fileID: 0}
-  clickSound: {fileID: 0}
-  gameOverSound: {fileID: 0}
+  lockSound: {fileID: 753063401}
+  rotateSound: {fileID: 753063400}
+  lineClearSound: {fileID: 753063402}
+  clickSound: {fileID: 753063404}
+  gameOverSound: {fileID: 753063403}
 --- !u!1 &841947525
 GameObject:
   m_ObjectHideFlags: 0
@@ -3220,7 +3220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 740fe0aaf5137ec40ac7a201d0b0e23b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundManager: {fileID: 0}
+  soundManager: {fileID: 753063407}
   score: {fileID: 1388740992}
   scoreText: {fileID: 841947527}
   stepDelay: 1
@@ -3237,7 +3237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b23ed909e1e6b440bad9c4fe86184e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundManager: {fileID: 0}
+  soundManager: {fileID: 753063407}
   score: {fileID: 1388740992}
   scoreText: {fileID: 841947527}
   lineText: {fileID: 1962038638}
