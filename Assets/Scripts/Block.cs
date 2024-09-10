@@ -1,10 +1,14 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class Block : MonoBehaviour
 {
+    [SerializeField] private Score score;
+    [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private float stepDelay = 1f;
     [SerializeField] private float lockDelay = 0.5f;
+
     public GameBoard Board {  get; private set; }
     public Vector3Int Position { get; private set; }
     public Vector3Int[] Cells { get; private set; }
@@ -40,6 +44,10 @@ public class Block : MonoBehaviour
 
     private void Update()
     {
+        if(Board.isGameOver == true)
+        {
+            return;
+        }
         Board.Clear(this);
 
         lockTime += Time.deltaTime;
@@ -94,6 +102,8 @@ public class Block : MonoBehaviour
 
     private void Lock()
     {
+        score.score += 10;
+        scoreText.text = score.score.ToString();
         Board.Set(this);
         Board.ClearLines();
         Board.SpawnPiece();

@@ -1,15 +1,25 @@
+using TMPro;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class GameBoard : MonoBehaviour
 {
+    [SerializeField] private Score score;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI lineText;
+    [SerializeField] private GameObject gameoOverPanel;
     [SerializeField] private TetrominoData[] tetrominos;
     [SerializeField] private Vector3Int spawnPosition;
+    
 
     public Block ActiveBlock {  get; private set; }
     public Tilemap Tilemap { get; private set; }
 
     public Vector2Int boardSize = new Vector2Int(10, 20);
+
+    public bool isGameOver {  get; private set; }
 
     public RectInt Bounds // Unity'nin bize saðlamýþ olduðu sýnýr oluþturma kodu diyebiliriz
     {
@@ -29,6 +39,8 @@ public class GameBoard : MonoBehaviour
         {
             tetrominos[i].Initialize();
         }
+
+        isGameOver = false;
     }
 
     private void Start()
@@ -58,9 +70,9 @@ public class GameBoard : MonoBehaviour
 
     private void GameOver()
     {
-        Tilemap.ClearAllTiles();
-
-        // UI ÝÞLEMLERÝ
+        isGameOver = true;
+        Time.timeScale = 0;
+        gameoOverPanel.SetActive(true);
     }
 
     public void Set(Block block)
@@ -111,6 +123,10 @@ public class GameBoard : MonoBehaviour
             if (IslineFull(row))
             {
                 ClearLine(row);
+                score.lines += 1;
+                score.score += 100;
+                scoreText.text = score.score.ToString();
+                lineText.text = score.lines.ToString();
             }
             else
             {
